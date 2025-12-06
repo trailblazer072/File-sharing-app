@@ -1,0 +1,26 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* Custom Colors */
+  --color-primary: #3b82f6;
+  /* blue-500 */
+  --color-primary-light: #60a5fa;
+  /* blue-400 */
+  --color-primary-dark: #2563eb;
+  /* blue-600 */
+
+  --color-dark-bg: #121212;
+  --color-dark-card: #1e1e1e;
+}
+
+@layer base {
+  body {
+    @apply bg-gray-50 text-gray-900 transition-colors duration-200;
+  }
+
+  /* Dark mode overrides */
+  .dark body {
+    @apply bg-[#1e1e1e] text-gray-100;
+  }
+}

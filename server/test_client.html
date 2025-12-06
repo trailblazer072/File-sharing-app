@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload Test</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; }
+        input, button { padding: 8px; width: 100%; box-sizing: border-box; }
+        pre { background: #f4f4f4; padding: 10px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Backend Test Client</h1>
+        
+        <div class="form-group">
+            <h3>1. Login</h3>
+            <label>Email</label>
+            <input type="email" id="email" placeholder="user@example.com">
+            <label>Password</label>
+            <input type="password" id="password" placeholder="password">
+            <button onclick="login()">Login</button>
+        </div>
+
+        <div class="form-group">
+            <h3>2. Upload File</h3>
+            <input type="file" id="file" multiple>
+            <button onclick="upload()">Upload</button>
+        </div>
+
+        <div class="form-group">
+            <h3>Output</h3>
+            <pre id="output">...</pre>
+        </div>
+    </div>
+
+    <script>
+        let token = localStorage.getItem('token');
+        const API_URL = 'http://localhost:3000';
+
+        function log(data) {
+            document.getElementById('output').textContent = JSON.stringify(data, null, 2);
+        }
+
+        async function login() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            try {
+                const res = await fetch(`${API_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await res.json();
+                if (data.token) {
+                    token = data.token;
+                    localStorage.setItem('token', token);
+                    alert('Login Successful');
+                }
+                log(data);
+            } catch (err) {
+                log(err);
+            }
+        }
+
+        async function upload() {
+            if (!token) return alert('Please login first');
+            
+            const fileInput = document.getElementById('file');
+            const formData = new FormData();
+            
+            for (const file of fileInput.files) {
+                formData.append('files', file);
+            }
+
+            try {
+                const res = await fetch(`${API_URL}/files/upload`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: formData
+                });
+                const data = await res.json();
+                log(data);
+            } catch (err) {
+                log(err);
+            }
+        }
+    </script>
+</body>
+</html>
