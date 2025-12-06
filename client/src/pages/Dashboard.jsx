@@ -12,6 +12,11 @@ const Dashboard = ({ filter = 'my-files' }) => {
     const { fileId } = useParams(); // Get fileId from URL if present
     const navigate = useNavigate();
 
+    useEffect(() => {
+        const title = filter === 'shared' ? 'Shared Files' : 'My Drive';
+        document.title = `${title} - FileVault`;
+    }, [filter]);
+
     const [files, setFiles] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);

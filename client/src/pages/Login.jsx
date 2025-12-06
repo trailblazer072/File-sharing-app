@@ -13,6 +13,10 @@ const Login = () => {
     const { login } = useAuth();
     const navigate = useNavigate();
 
+    useEffect(() => {
+        document.title = 'Login - FileVault';
+    }, []);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');

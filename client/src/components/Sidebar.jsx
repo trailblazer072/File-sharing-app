@@ -17,7 +17,7 @@ const Sidebar = ({ onUploadClick }) => {
                 <div className="bg-primary p-2 rounded-lg">
                     <Cloud className="text-white" size={24} />
                 </div>
-                <h1 className="text-xl font-bold text-gray-800 dark:text-white tracking-tight">CloudSpace</h1>
+                <h1 className="text-xl font-bold text-gray-800 dark:text-white tracking-tight">FileVault</h1>
             </div>
 
             {/* New Button */}

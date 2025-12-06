@@ -17,6 +17,10 @@ const Register = () => {
     // Let's assume we redirect to login for now.
     const navigate = useNavigate();
 
+    useEffect(() => {
+        document.title = 'Register - FileVault';
+    }, []);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
