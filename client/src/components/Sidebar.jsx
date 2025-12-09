@@ -1,4 +1,4 @@
-import { Home, Share2, Clock, Star, Trash2, Cloud, Plus } from 'lucide-react';
+import { Home, Share2, Clock, Star, Trash2, Cloud, Plus, X } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 
 const navItems = [
@@ -9,15 +9,24 @@ const navItems = [
     { icon: Trash2, label: 'Trash', path: '/trash' },
 ];
 
-const Sidebar = ({ onUploadClick }) => {
+const Sidebar = ({ onUploadClick, onClose }) => {
     return (
         <aside className="w-64 bg-white dark:bg-[#1e1e1e] border-r border-gray-200 dark:border-gray-800 flex flex-col h-full transition-colors duration-300">
             {/* Logo Area */}
-            <div className="p-6 flex items-center space-x-3">
-                <div className="bg-primary p-2 rounded-lg">
-                    <Cloud className="text-white" size={24} />
+            <div className="p-6 flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                    <div className="bg-primary p-2 rounded-lg">
+                        <Cloud className="text-white" size={24} />
+                    </div>
+                    <h1 className="text-xl font-bold text-gray-800 dark:text-white tracking-tight">FileVault</h1>
                 </div>
-                <h1 className="text-xl font-bold text-gray-800 dark:text-white tracking-tight">FileVault</h1>
+                {/* Close Button (Mobile Only) */}
+                <button
+                    onClick={onClose}
+                    className="md:hidden p-2 text-gray-500 hover:bg-gray-100 dark:hover:bg-[#2d2d2d] rounded-full transition-colors"
+                >
+                    <X size={20} />
+                </button>
             </div>
 
             {/* New Button */}
@@ -37,6 +46,7 @@ const Sidebar = ({ onUploadClick }) => {
                     <NavLink
                         key={item.path}
                         to={item.path}
+                        onClick={onClose} // Close sidebar on mobile when navigating
                         end={item.path === '/dashboard'} // Only exact match for dashboard home
                         className={({ isActive }) => `
                             flex items-center space-x-3 px-4 py-3 rounded-xl transition-colors

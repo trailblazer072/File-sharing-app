@@ -13,19 +13,13 @@ export const AuthProvider = ({ children }) => {
     const login = async (email, password) => {
         try {
             const response = await api.post('/auth/login', { email, password });
-            const { token, user } = response.data;
+            const { token } = response.data;
+            // Response structure: { status: 'success', token: '...', data: { user: ... } }
+            const user = response.data.data.user;
 
             localStorage.setItem('token', token);
             setToken(token);
-            // Decode token or fetch user details if needed. 
-            // For now, let's assume login returns basic user info or we fetch it.
-            // Wait, previous backend login returned { status, token }. It didn't return user object explicitly in data root?
-            // Let's check backend auth controller logic if needed. 
-            // Better: fetch me after login or decode token.
-            // For simplicity, let's store token and rely on a verify/me endpoint if exists, OR just trust token validity.
-            // Actually, backend login returns: { status, token }. User details are not in root.
-
-            // To be safe, let's just save token.
+            setUser(user);
             return true;
         } catch (error) {
             console.error("Login failed", error);
@@ -49,15 +43,22 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
     };
 
-    // Check if token exists on load
+    // Check if token exists on load and fetch user
     useEffect(() => {
-        if (token) {
-            // Ideally verify token with backend here
-            // For now, just assume logged in state 
+        const fetchUser = async () => {
+            if (token) {
+                try {
+                    const response = await api.get('/auth/me');
+                    setUser(response.data.data.user);
+                } catch (err) {
+                    console.error("Failed to fetch user", err);
+                    logout();
+                }
+            }
             setLoading(false);
-        } else {
-            setLoading(false);
-        }
+        };
+
+        fetchUser();
     }, [token]);
 
     const value = {

@@ -16,7 +16,7 @@ const FileCard = ({ file, onDownload, onDelete, onShare, onPreview, isSharedView
             animate={{ opacity: 1, scale: 1 }}
             whileHover={{ y: -5, boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)" }}
             onClick={() => onPreview && onPreview(file)}
-            className="bg-white dark:bg-[#2d2d2d] rounded-2xl p-4 border border-gray-100 dark:border-gray-700 shadow-sm transition-all relative group cursor-pointer overflow-hidden"
+            className="bg-white dark:bg-[#2d2d2d] rounded-2xl p-4 pb-16 md:pb-4 border border-gray-100 dark:border-gray-700 shadow-sm transition-all relative group cursor-pointer overflow-hidden"
         >
             <div className="flex justify-between items-start mb-4">
                 <div className="p-3 bg-gray-50 dark:bg-[#1e1e1e] rounded-xl">
@@ -46,7 +46,7 @@ const FileCard = ({ file, onDownload, onDelete, onShare, onPreview, isSharedView
             </div>
 
             {/* Quick Actions Overlay */}
-            <div className="absolute inset-x-0 bottom-0 bg-white/95 dark:bg-[#2d2d2d]/95 backdrop-blur-sm p-3 rounded-b-2xl translate-y-full group-hover:translate-y-0 transition-transform flex justify-around border-t border-gray-100 dark:border-gray-700 shadow-lg">
+            <div className="absolute inset-x-0 bottom-0 bg-white/95 dark:bg-[#2d2d2d]/95 backdrop-blur-sm p-3 rounded-b-2xl translate-y-0 md:translate-y-full md:group-hover:translate-y-0 transition-transform flex justify-around border-t border-gray-100 dark:border-gray-700 shadow-lg z-10">
                 <button onClick={(e) => { e.stopPropagation(); onDownload(file._id); }} className="p-2 hover:bg-blue-50 dark:hover:bg-blue-900/20 text-blue-600 rounded-lg" title="Download">
                     <Download size={18} />
                 </button>
