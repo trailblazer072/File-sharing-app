@@ -1,80 +1,80 @@
-# FileVault - Secure File Sharing App
+# FileVault (My File Sharing App)
 
-A modern, secure file sharing application built with the MERN stack (MongoDB, Express, React, Node.js).
+Hey! This is a file sharing application I built. It's basically like a personal Google Drive where you can store your files and share them with others securely. I built this to understand how full-stack development works, especially file handling and security.
 
-## Features
-- **Secure Authentication**: User registration and login with JWT.
-- **File Management**: Upload, download, and delete files.
-- **Sharing**: Share files with specific users via email or secure links.
-- **Restricted Access**: Links are protected and only accessible by permitted users.
-- **Responsive UI**: Built with React, Tailwind CSS, and Framer Motion.
+## What it does
+It's not just a simple upload/download app. I've added a bunch of features:
+- **Upload stuff**: You can upload multiple files at once. I'm using AWS S3 so it can handle big files.
+- **Secure Login**: You have to register and login to see your files. It uses JWT for security.
+- **Sharing**: You can share files with other people using their email.
+- **AI Summary**: This is the newest feature! You can click on a file and it will use AI to give you a short summary of what's inside. Useful if you have long documents.
+- **Mobile Friendly**: Works good on phones too.
 
-## Prerequisites
-- Node.js (v14 or higher)
-- MongoDB (Running locally or Atlas URI)
-- AWS S3 Bucket (for file storage)
+## Technology I Used
+- **Frontend**: React with Vite (managed to make it look decent with Tailwind CSS).
+- **Backend**: Node.js and Express.
+- **Database**: MongoDB for storing user data and file info.
+- **Storage**: AWS S3 for the actual files.
 
-## Getting Started
+## How to run it locally
 
-### 1. Clone the Repository
-```bash
-git clone https://github.com/your-username/file-sharing-app.git
-cd file-sharing-app
-```
+If you want to try this out on your machine, here is what you need to do.
 
-### 2. Backend Setup
-Navigate to the server directory and install dependencies:
-```bash
-cd server
-npm install
-```
+### Prerequisites
+You need Node.js installed and a MongoDB database (local or Atlas works). Also you need an AWS S3 bucket for file uploads.
 
-Create a `.env` file in the `server` directory with the following variables:
-```env
-PORT=3000
-MONGO_URI=mongodb://localhost:27017/file-sharing-app
-JWT_SECRET=your_jwt_secret_key_here
-AWS_ACCESS_KEY_ID=your_aws_access_key
-AWS_SECRET_ACCESS_KEY=your_aws_secret_key
-AWS_REGION=us-east-1
-AWS_BUCKET_NAME=your_s3_bucket_name
-```
+### Steps
 
-Start the backend server:
-```bash
-npm start
-# OR for development with auto-restart
-npm run dev
-```
+1. **Clone the repo**
+   ```bash
+   git clone https://github.com/trainblazer072/file-sharing-app.git
+   cd file-sharing-app
+   ```
 
-### 3. Frontend Setup
-Open a new terminal, navigate to the client directory and install dependencies:
-```bash
-cd client
-npm install
-```
+2. **Setup Backend**
+   Go to the server folder and install packages:
+   ```bash
+   cd server
+   npm install
+   ```
+   
+   You need to make a `.env` file in the `server` folder with your keys:
+   ```env
+   PORT=3000
+   MONGO_URI=mongodb://localhost:27017/file-sharing-app
+   JWT_SECRET=some_secret_key
+   AWS_ACCESS_KEY_ID=your_aws_key
+   AWS_SECRET_ACCESS_KEY=your_aws_secret
+   AWS_REGION=us-east-1
+   AWS_BUCKET_NAME=your_bucket_name
+   ```
+   
+   Then start it:
+   ```bash
+   npm run dev
+   ```
 
-Create a `.env` file in the `client` directory:
-```env
-VITE_API_URL=http://localhost:3000
-```
+3. **Setup Frontend**
+   Open a new terminal, go to client folder:
+   ```bash
+   cd client
+   npm install
+   ```
 
-Start the frontend development server:
-```bash
-npm run dev
-```
+   Make a `.env` file here too:
+   ```env
+   VITE_API_URL=http://localhost:3000
+   ```
 
-The app should now be running at `http://localhost:5173`.
+   Run it:
+   ```bash
+   npm run dev
+   ```
+
+   It should open on `http://localhost:5173`.
 
 ## Deployment
+I deployed the backend and frontend on Vercel. If you want to deploy, just push the server and client folders to those services and set the environment variables there.
 
-### Backend (Render/Railway)
-Deploy the `server` directory. Ensure you set all the Environment Variables in your hosting dashboard.
-
-### Frontend (Vercel)
-Deploy the `client` directory. Set the `VITE_API_URL` environment variable to your deployed backend URL.
-
-## Tech Stack
-- **Frontend**: React, Vite, Tailwind CSS, Framer Motion, Axios.
-- **Backend**: Node.js, Express, Mongoose, Multer (S3).
-- **Database**: MongoDB.
+---
+Let me know if you face any issues running it!
