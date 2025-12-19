@@ -6,6 +6,11 @@ const fileSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
+        summary: {
+            short: String,
+            bullets: [String],
+            generatedAt: Date
+        },
         originalName: {
             type: String,
             required: true,

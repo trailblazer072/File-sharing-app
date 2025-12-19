@@ -51,6 +51,12 @@ const fileService = {
     getFile: async (id) => {
         const response = await api.get(`/files/${id}/download`);
         return response.data.data;
+    },
+
+    // Generate summary
+    summarizeFile: async (id) => {
+        const response = await api.post(`/files/${id}/summarize`);
+        return response.data;
     }
 };
 

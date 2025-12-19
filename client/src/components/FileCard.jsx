@@ -1,5 +1,7 @@
-import { FileText, Image, Film, Music, MoreVertical, Download, Share2, Trash2, UserMinus } from 'lucide-react';
+import { FileText, Image, Film, Music, MoreVertical, Download, Share2, Trash2, UserMinus, Sparkles, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useState } from 'react';
+import fileService from '../services/fileService';
 
 const getFileIcon = (mimeType) => {
     if (mimeType?.startsWith('image/')) return <Image className="text-purple-500" size={40} />;
@@ -8,7 +10,24 @@ const getFileIcon = (mimeType) => {
     return <FileText className="text-blue-500" size={40} />;
 };
 
-const FileCard = ({ file, onDownload, onDelete, onShare, onPreview, isSharedView }) => {
+const FileCard = ({ file, onDownload, onDelete, onShare, onPreview, isSharedView, onShowSummary }) => {
+    const [isSummarizing, setIsSummarizing] = useState(false);
+
+    const handleSummarize = async (e) => {
+        e.stopPropagation();
+        try {
+            setIsSummarizing(true);
+            const response = await fileService.summarizeFile(file._id);
+            if (response.status === 'success') {
+                onShowSummary(response.data.summary);
+            }
+        } catch (error) {
+            console.error('Failed to summarize', error);
+        } finally {
+            setIsSummarizing(false);
+        }
+    };
+
     return (
         <motion.div
             layout
@@ -45,11 +64,26 @@ const FileCard = ({ file, onDownload, onDelete, onShare, onPreview, isSharedView
                 )}
             </div>
 
-            {/* Quick Actions Overlay */}
+            {/* Default Quick Actions */}
             <div className="absolute inset-x-0 bottom-0 bg-white/95 dark:bg-[#2d2d2d]/95 backdrop-blur-sm p-3 rounded-b-2xl translate-y-0 md:translate-y-full md:group-hover:translate-y-0 transition-transform flex justify-around border-t border-gray-100 dark:border-gray-700 shadow-lg z-10">
                 <button onClick={(e) => { e.stopPropagation(); onDownload(file._id); }} className="p-2 hover:bg-blue-50 dark:hover:bg-blue-900/20 text-blue-600 rounded-lg" title="Download">
                     <Download size={18} />
                 </button>
+
+                {file.mimeType === 'application/pdf' && (
+                    <button
+                        onClick={handleSummarize}
+                        className="p-2 hover:bg-purple-50 dark:hover:bg-purple-900/20 text-purple-600 rounded-lg relative"
+                        title="Summarize with AI"
+                        disabled={isSummarizing}
+                    >
+                        {isSummarizing ? (
+                            <Loader2 size={18} className="animate-spin" />
+                        ) : (
+                            <Sparkles size={18} />
+                        )}
+                    </button>
+                )}
 
                 {!isSharedView ? (
                     <>
@@ -66,6 +100,8 @@ const FileCard = ({ file, onDownload, onDelete, onShare, onPreview, isSharedView
                     </button>
                 )}
             </div>
+
+
         </motion.div>
     );
 };

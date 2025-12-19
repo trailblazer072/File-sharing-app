@@ -1,9 +1,10 @@
-import { useEffect, useState  } from 'react';
+import { useEffect, useState } from 'react';
 import { useOutletContext, useParams, useNavigate } from 'react-router-dom'; // Import context hook
 import fileService from '../services/fileService';
 import FileList from '../components/FileList';
 import ShareModal from '../components/ShareModal';
 import PreviewModal from '../components/PreviewModal';
+import SummaryModal from '../components/SummaryModal';
 import { Loader2, LayoutGrid, List as ListIcon } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -29,6 +30,10 @@ const Dashboard = ({ filter = 'my-files' }) => {
     // Preview State
     const [previewModalOpen, setPreviewModalOpen] = useState(false);
     const [fileToPreview, setFileToPreview] = useState(null);
+
+    // Summary State
+    const [summaryModalOpen, setSummaryModalOpen] = useState(false);
+    const [summaryData, setSummaryData] = useState(null);
 
     // check if we have a fileId in url, if so try to preview it immediately
     useEffect(() => {
@@ -165,6 +170,10 @@ const Dashboard = ({ filter = 'my-files' }) => {
                 onShare={handleShare}
                 onPreview={handlePreview}
                 isSharedView={filter === 'shared'}
+                onShowSummary={(data) => {
+                    setSummaryData(data);
+                    setSummaryModalOpen(true);
+                }}
             />
 
             <ShareModal
@@ -181,6 +190,12 @@ const Dashboard = ({ filter = 'my-files' }) => {
                 onShare={handleShare}
                 isSharedView={filter === 'shared'}
                 onRemove={handleDelete}
+            />
+
+            <SummaryModal
+                isOpen={summaryModalOpen}
+                onClose={() => setSummaryModalOpen(false)}
+                summary={summaryData}
             />
         </div>
     );

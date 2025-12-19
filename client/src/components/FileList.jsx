@@ -2,7 +2,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import FileCard from './FileCard';
 import { LayoutGrid, List as ListIcon } from 'lucide-react';
 
-const FileList = ({ files, viewMode, onDownload, onDelete, onShare, onPreview, isSharedView }) => {
+const FileList = ({ files, viewMode, onDownload, onDelete, onShare, onPreview, isSharedView, onShowSummary }) => {
     if (files.length === 0) {
         return (
             <div className="flex flex-col items-center justify-center h-64 text-gray-400">
@@ -32,6 +32,7 @@ const FileList = ({ files, viewMode, onDownload, onDelete, onShare, onPreview, i
                         onShare={onShare}
                         onDelete={onDelete}
                         onPreview={onPreview}
+                        onShowSummary={onShowSummary}
                     />
                 ))}
             </AnimatePresence>

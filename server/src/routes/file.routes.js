@@ -2,7 +2,7 @@ const express = require('express');
 const fileController = require('../controllers/file.controller');
 const authMiddleware = require('../middlewares/auth');
 const { upload } = require('../config/multer');
-
+const {generateFileSummary} = require('../controllers/file.controller');
 const router = express.Router();
 
 // Protect all routes
@@ -13,5 +13,5 @@ router.get('/', fileController.listFiles);
 router.get('/shared', fileController.listSharedFiles);
 router.get('/:id/download', fileController.downloadFile);
 router.delete('/:id', fileController.deleteFile);
-
+router.post("/:id/summarize", generateFileSummary);
 module.exports = router;
